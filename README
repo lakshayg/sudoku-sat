@@ -1,0 +1,6 @@
+A sudoku puzzle is represented as A string containing 81 characters where each
+char represents a digit in the sudoku puzzle. Missing digits can be replaced by
+any ascii character other than digits 1-9.
+
+Input to solvers can either be supplied on stdin or a file passed as an argument
+which contains the sudoku puzzle

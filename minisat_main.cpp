@@ -130,23 +130,17 @@ class Sudoku {
   }
 };
 
-void read_sudoku(std::string filename, Sudoku& s) {
-  std::ifstream in(filename);
-  for (int k = 0; k < 81; ++k) {
-    int i(k / 9), j(k % 9);
-    in >> s(i, j);
-  }
-  in.close();
-}
-
 int main(int argc, char** argv) {
-  if (argc < 2) {
-    cerr << "No input file provided" << endl;
-    exit(-1);
-  }
-
+  char buf[81];
+  FILE* file = NULL;
+  if (argc == 2) { file = fopen(argv[1], "r"); }
+  fscanf(file ? file : stdin, "%81s", buf);
+  if (file) { fclose(file); }
   Sudoku sudoku;
-  read_sudoku(argv[1], sudoku);
+  for (int k = 0; k < 81; ++k) {
+    int val = (buf[k] < '1' || buf[k] > '9') ? 0 : (buf[k] - '0');
+    sudoku(k / 9, k % 9) = val;
+  }
 
   if (not sudoku.valid()) {
     cerr << "The provided sudoku is invalid" << endl;

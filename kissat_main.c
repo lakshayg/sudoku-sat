@@ -105,17 +105,20 @@ void set_digit(kissat* solver, int row, int col, int digit) {
   kissat_add(solver, 0);
 }
 
-int main() {
+int main(int argc, char* argv[]) {
   kissat* solver = init_sudoku_solver();
   kissat_set_option(solver, "quiet", 1);
 
-  int d;
+  FILE* file = NULL;
+  if (argc == 2) { file = fopen(argv[1], "r"); }
+  char sudoku[81];
+  fscanf(file ? file : stdin, "%81s", sudoku);
+  if (file) { fclose(file); }
   for (int r = 1; r <= 9; ++r) {
     for (int c = 1; c <= 9; ++c) {
-      scanf("%d", &d);
-      if (d != 0) {
-        set_digit(solver, r, c, d);
-      }
+      int index = 9 * (r - 1) + (c -  1);
+      if (sudoku[index] < '1' || sudoku[index] > '9') { continue; }
+      set_digit(solver, r, c, sudoku[index] - '0');
     }
   }
 
