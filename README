@@ -4,3 +4,9 @@ any ascii character other than digits 1-9.
 
 Input to solvers can either be supplied on stdin or a file passed as an argument
 which contains the sudoku puzzle
+
+To run the 5-th puzzle
+
+```
+sed -n '5p' < puzzles.txt | ./solver
+```

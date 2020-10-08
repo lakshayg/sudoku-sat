@@ -159,7 +159,6 @@ int main(int argc, char** argv) {
     }
   }
 
-  auto t1 = high_resolution_clock::now();
   // add clauses to the solver
   // each cell must contain only one of the 9 digits
   for (int k = 0; k < 81; ++k) {
@@ -231,8 +230,8 @@ int main(int argc, char** argv) {
     }
   }
 
+  auto t1 = high_resolution_clock::now();
   s.solve();
-
   auto t2 = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(t2 - t1).count();
 
