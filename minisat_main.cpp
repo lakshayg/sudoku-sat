@@ -5,9 +5,16 @@
 #include <iostream>
 #include <vector>
 
+#if defined(USE_MINISAT)
 #include "minisat/core/Solver.h"
-
 using namespace Minisat;
+#endif
+
+#if defined(USE_SLIME)
+#include "Solver.h"
+using namespace SLIME;
+#endif
+
 using namespace std;
 using namespace std::chrono;
 
@@ -69,6 +76,9 @@ class Sudoku {
   }
 
   void print() {
+#if defined(USE_SLIME)
+    printf("\n");
+#endif
     for (int i = 0; i < 9; ++i) {
       if (i % 3 == 0)
         printf("+---------+---------+---------+\n");

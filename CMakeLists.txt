@@ -20,6 +20,15 @@ if(NOT minisat_POPULATED)
   set(MINISAT_INCLUDE_DIR ${minisat_SOURCE_DIR})
 endif()
 
+FetchContent_Declare(slime GIT_REPOSITORY "https://github.com/lakshayg/slime-sat-solver")
+FetchContent_GetProperties(slime)
+if(NOT slime_POPULATED)
+  FetchContent_Populate(slime)
+  add_subdirectory(${slime_SOURCE_DIR} ${slime_BINARY_DIR})
+  set(SLIME_INCLUDE_DIR ${slime_SOURCE_DIR}/slime ${slime_SOURCE_DIR}/slime/include)
+  # set(SLIME_LINK_DIR ${slime_SOURCE_DIR}/slime/lib)
+endif()
+
 set(CMAKE_C_FLAGS "-Wall -pedantic -O3")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} --std=c++11")
 
@@ -28,5 +37,11 @@ target_include_directories(kissat_main PRIVATE ${KISSAT_INCLUDE_DIR})
 target_link_libraries(kissat_main kissat)
 
 add_executable(minisat_main minisat_main.cpp)
+set_target_properties(minisat_main PROPERTIES COMPILE_FLAGS "-DUSE_MINISAT")
 target_include_directories(minisat_main PRIVATE ${MINISAT_INCLUDE_DIR})
 target_link_libraries(minisat_main minisat-lib-static)
+
+add_executable(slime_main minisat_main.cpp)
+set_target_properties(slime_main PROPERTIES COMPILE_FLAGS "-DUSE_SLIME")
+target_include_directories(slime_main PRIVATE ${SLIME_INCLUDE_DIR})
+target_link_libraries(slime_main slime)
